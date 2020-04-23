@@ -7,3 +7,7 @@
 /bin
 /target
 /java-xmlbuilder
+
+# ignore IDEA project/module files
+/.idea/
+*.iml
