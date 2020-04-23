@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Properties;
 
@@ -331,14 +332,14 @@ public abstract class BaseXMLBuilderTests extends TestCase {
     public void testCDataNodes() throws Exception {
         String text = "Text data -- left as it is";
         String textForBytes = "Byte data is automatically base64-encoded";
-        String textEncoded = Base64.getEncoder().encodeToString(textForBytes.getBytes("UTF-8"));
+        String textEncoded = Base64.getEncoder().encodeToString(textForBytes.getBytes(StandardCharsets.UTF_8));
 
         BaseXMLBuilder builder = XMLBuilder_create("TestCDataNodes")
             .elem("CDataTextElem")
                 .cdata(text)
                 .up()
             .elem("CDataBytesElem")
-                .cdata(textForBytes.getBytes("UTF-8"));
+                .cdata(textForBytes.getBytes(StandardCharsets.UTF_8));
 
         Node cdataTextNode = builder.xpathFind("//CDataTextElem")
             .getElement().getChildNodes().item(0);
