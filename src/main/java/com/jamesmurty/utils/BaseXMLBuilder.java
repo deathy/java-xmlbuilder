@@ -22,6 +22,7 @@ package com.jamesmurty.utils;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Base64;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -41,8 +42,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import net.iharder.Base64;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -857,7 +856,7 @@ public abstract class BaseXMLBuilder {
     protected void cdataImpl(byte[] data) {
         xmlNode.appendChild(
             getDocument().createCDATASection(
-                Base64.encodeBytes(data)));
+                Base64.getEncoder().encodeToString(data)));
     }
 
     /**

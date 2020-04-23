@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Base64;
 import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
@@ -11,7 +12,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import junit.framework.TestCase;
-import net.iharder.Base64;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -331,7 +331,7 @@ public abstract class BaseXMLBuilderTests extends TestCase {
     public void testCDataNodes() throws Exception {
         String text = "Text data -- left as it is";
         String textForBytes = "Byte data is automatically base64-encoded";
-        String textEncoded = Base64.encodeBytes(textForBytes.getBytes("UTF-8"));
+        String textEncoded = Base64.getEncoder().encodeToString(textForBytes.getBytes("UTF-8"));
 
         BaseXMLBuilder builder = XMLBuilder_create("TestCDataNodes")
             .elem("CDataTextElem")
@@ -349,7 +349,7 @@ public abstract class BaseXMLBuilderTests extends TestCase {
             .getElement().getChildNodes().item(0);
         assertEquals(Node.CDATA_SECTION_NODE, cdataBytesNode.getNodeType());
         assertEquals(textEncoded, cdataBytesNode.getNodeValue());
-        String base64Decoded = new String(Base64.decode(cdataBytesNode.getNodeValue()));
+        String base64Decoded = new String(Base64.getDecoder().decode(cdataBytesNode.getNodeValue()));
         assertEquals(textForBytes, base64Decoded);
     }
 
